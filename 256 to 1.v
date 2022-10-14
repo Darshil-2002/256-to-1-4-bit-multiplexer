@@ -3,19 +3,9 @@ module top_module(
     input [7:0] sel,
     output [3:0] out );
 
-    integer j,i;
-    wire [3:0] a[255:0];
-
-    always @(*)
-        begin
-            for(i=0;i<1024;i=i+4)
-          begin
-              if(sel == (i/4))
-                begin
-                    out = in[i+:4];
-                end
-               
-          end 
-        end
+    // We can't part-select multiple bits without an error, but we can select one bit at a time,
+	// four times, then concatenate them together.
+    
+	assign out = {in[sel*4+3], in[sel*4+2], in[sel*4+1], in[sel*4+0]};
     
 endmodule
